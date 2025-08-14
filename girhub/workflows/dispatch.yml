@@ -1,0 +1,79 @@
+name: Mobile-Dispatch
+
+on:
+  repository_dispatch:
+    types: [pentest, e2e, deploy]
+  workflow_dispatch:
+    inputs:
+      event:
+        description: "pentest|e2e|deploy"
+        required: true
+      branch:
+        required: false
+      command:
+        required: false
+      env:
+        required: false
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  route:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve inputs
+        id: i
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "EVENT=${{ github.event.action }}" >> $GITHUB_OUTPUT
+            echo "BRANCH=${{ github.event.client_payload.branch }}" >> $GITHUB_OUTPUT
+            echo "CMD=${{ github.event.client_payload.command }}" >> $GITHUB_OUTPUT
+            echo "ENV=${{ github.event.client_payload.env }}" >> $GITHUB_OUTPUT
+          else
+            echo "EVENT=${{ inputs.event }}" >> $GITHUB_OUTPUT
+            echo "BRANCH=${{ inputs.branch }}" >> $GITHUB_OUTPUT
+            echo "CMD=${{ inputs.command }}" >> $GITHUB_OUTPUT
+            echo "ENV=${{ inputs.env }}" >> $GITHUB_OUTPUT
+          fi
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.i.outputs.BRANCH || 'main' }}
+
+      - name: Print meta
+        run: |
+          echo "Event: ${{ steps.i.outputs.EVENT }}"
+          echo "Branch: ${{ steps.i.outputs.BRANCH }}"
+          echo "Cmd: ${{ steps.i.outputs.CMD }}"
+          echo "Env: ${{ steps.i.outputs.ENV }}"
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install
+        run: npm ci --ignore-scripts
+
+      - name: Run E2E
+        if: ${{ steps.i.outputs.EVENT == 'e2e' }}
+        run: |
+          set -eux
+          ${ { steps.i.outputs.CMD } || 'npm run test:e2e' }
+
+      - name: PenTest Harness
+        if: ${{ steps.i.outputs.EVENT == 'pentest' }}
+        run: |
+          set -eux
+          bash scripts/aipentest.sh ${{ steps.i.outputs.CMD }}
+
+      - name: Deploy
+        if: ${{ steps.i.outputs.EVENT == 'deploy' }}
+        env:
+          TARGET_ENV: ${{ steps.i.outputs.ENV || 'preview' }}
+        run: |
+          set -eux
+          npm run build
+          echo "Deploy to $TARGET_ENV"
+          # hier ggf. vercel/ssh/k8s ausführen

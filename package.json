@@ -1,0 +1,13 @@
+{
+  "name": "immorage-telegramctl",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bot": "node scripts/telegram-bot.js"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

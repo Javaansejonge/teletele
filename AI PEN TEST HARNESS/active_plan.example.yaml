@@ -1,0 +1,26 @@
+target: https://your-target.tld
+auth:
+  type: header
+  header_name: Authorization
+  value: Bearer YOUR_TOKEN_HERE
+chat:
+  endpoint: https://your-target.tld/api/v1/chat
+  method: POST
+  json_template:
+    messages:
+      - role: user
+        content: "__PAYLOAD__"
+  rate_limit_per_min: 20
+rag:
+  list_endpoint: https://your-target.tld/api/v1/rag/list
+  get_endpoint: https://your-target.tld/api/v1/rag/get
+  method: POST
+  list_body: { query: "list" }
+  get_body_template: { id: "__DOC_ID__" }
+mcp:
+  http_endpoints:
+    - https://your-target.tld/mcp
+    - https://your-target.tld/.well-known/mcp.json
+  ws: []
+output_sampling:
+  sample_count: 5

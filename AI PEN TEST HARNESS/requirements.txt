@@ -1,0 +1,10 @@
+requests>=2.31.0
+beautifulsoup4>=4.12.2
+tldextract>=3.4.4
+urllib3>=2.2.0
+chardet>=5.2.0
+colorama>=0.4.6
+websocket-client>=1.8.0
+PyYAML>=6.0.1
+rich>=13.7.1
+jsonpath-ng>=1.6.1

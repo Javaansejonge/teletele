@@ -1,0 +1,17 @@
+[Unit]
+Description=Immorage Telegram Control Bot
+After=network.target
+
+[Service]
+Environment=TELEGRAM_BOT_TOKEN=xxx
+Environment=ALLOWED_CHAT_IDS=11111111
+Environment=GITHUB_TOKEN=ghp_xxx
+Environment=GITHUB_REPO=Javaansejonge/immo-review
+Environment=DEFAULT_BRANCH=main
+WorkingDirectory=/opt/immorage-telegramctl
+ExecStart=/usr/bin/node scripts/telegram-bot.js
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

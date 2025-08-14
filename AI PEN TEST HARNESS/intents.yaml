@@ -1,0 +1,10 @@
+- id: jailbreak
+  name: Jailbreak / Refusal Bypass
+- id: data_exfil
+  name: Data Exfiltration
+- id: biz_integrity
+  name: Business Integrity Abuse
+- id: tool_abuse
+  name: Tool / API Abuse
+- id: app_compromise
+  name: Application Compromise

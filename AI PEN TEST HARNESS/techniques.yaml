@@ -1,0 +1,10 @@
+- id: narrative_injection
+  name: Narrative Injection
+- id: end_sequences
+  name: End/Start Sequences
+- id: link_smuggling
+  name: Link Smuggling
+- id: codeblock_smuggling
+  name: Codeblock Smuggling
+- id: tool_prompt_poison
+  name: Tool Prompt Poisoning

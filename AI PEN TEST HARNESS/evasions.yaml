@@ -1,0 +1,8 @@
+- id: meta_char_confusion
+  name: Meta Character Confusion
+- id: alt_encoding
+  name: Alternate Encodings
+- id: fictional_lang
+  name: Fictional / Obscure Languages
+- id: truncation
+  name: Truncated Terms

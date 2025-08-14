@@ -1,0 +1,6 @@
+- id: payload_variations
+  name: Payload Variation Generator
+- id: recon_mapper
+  name: Recon Mapper
+- id: checklists
+  name: Targets Checklist Exporter
